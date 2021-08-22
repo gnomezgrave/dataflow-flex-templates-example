@@ -1,0 +1,16 @@
+{
+  "description": "Validates image gallery created by gallery logic",
+  "name": "Image Gallery pipeline",
+  "parameters": [
+    {
+      "name": "input",
+      "helpText": "Input location",
+      "label": "Input Location"
+    },
+    {
+      "name": "output",
+      "helpText": "Output Location",
+      "label": "Output Location"
+    }
+  ]
+}
