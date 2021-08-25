@@ -1,5 +1,5 @@
-google-cloud-storage
-apache-beam[gcp]
-google-api-python-client
+google-cloud-storage==1.31.2
+apache-beam[gcp]==2.24.0
+google-api-python-client==1.12.5
 oauth2client
-google-cloud-monitoring
+google-cloud-monitoring==2.1.0

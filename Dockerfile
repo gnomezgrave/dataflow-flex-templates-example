@@ -19,7 +19,9 @@ FROM gcr.io/dataflow-templates-base/python3-template-launcher-base
 RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 
-COPY src/* ${WORKDIR}/
+COPY src/pipeline ${WORKDIR}/pipeline
+COPY src/setup.py ${WORKDIR}/setup.py
+COPY src/main.py ${WORKDIR}/main.py
 
 COPY src/requirements.txt ${WORKDIR}/requirements.txt
 COPY src/spec/python_command_spec.json ${WORKDIR}/python_command_spec.json

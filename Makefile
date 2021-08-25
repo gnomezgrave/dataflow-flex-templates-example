@@ -52,4 +52,7 @@ run:
 	--setup_file src/setup.py \
 	--job_name demo-$(TIMESTAMP_IN_SECONDS)
 
+df:
+	REGION=$(REGION) PROJECT=$(PROJECT) python run_dataflow.py
+
 .PHONY: run template template-spec build-template build init
