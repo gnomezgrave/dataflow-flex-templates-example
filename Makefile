@@ -29,7 +29,6 @@ template-spec:
 build-template:
 	mkdir -p _tmp/src/$(TARGET)
 	cp -R src/$(TARGET) _tmp/src
-	cp src/utils/utils.py _tmp/src/$(TARGET)/pipeline/
 	cat resources/image_spec.json | TEMPLATE_IMAGE=$(TEMPLATE_IMAGE) envsubst > _tmp/src/$(TARGET)/spec/image_spec.json
 	cat resources/python_command_spec.json | WORKDIR=$(DOCKER_WORKDIR) envsubst > _tmp/src/$(TARGET)/spec/python_command_spec.json
 	cat Dockerfile | COMPONENT=$(TARGET) WORKDIR=$(DOCKER_WORKDIR) envsubst > _tmp/Dockerfile
