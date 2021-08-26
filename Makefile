@@ -13,6 +13,7 @@ TEMPLATE_IMAGE=gcr.io/$(PROJECT)/word-count-example-$(USER):latest
 
 # Don't change this! This must be as is for Dataflow to trigger the main.py file.
 DOCKER_WORKDIR=/dataflow/template
+TARGET=demo
 
 init:
 	python3 -m venv .venv
@@ -23,20 +24,17 @@ build:
 	pip install -r requirements.txt
 
 template-spec:
-	gcloud dataflow flex-template build $(TEMPLATE_PATH) --image "$(TEMPLATE_IMAGE)" --sdk-language "PYTHON" --metadata-file src/spec/template_metadata
+	gcloud dataflow flex-template build $(TEMPLATE_PATH) --image "$(TEMPLATE_IMAGE)" --sdk-language "PYTHON" --metadata-file src/$(TARGET)/spec/template_metadata
 
 build-template:
-	mkdir -p _tmp/src
-	cp -R src/ _tmp/src
-
-	# Starting environment variable substitution
-	cat resources/image_spec.json | TEMPLATE_IMAGE=$(TEMPLATE_IMAGE) envsubst > _tmp/src/spec/image_spec.json
-	cat resources/python_command_spec.json | WORKDIR=$(DOCKER_WORKDIR) envsubst > _tmp/src/spec/python_command_spec.json
-	cat Dockerfile | WORKDIR=$(DOCKER_WORKDIR) envsubst > _tmp/Dockerfile
-	# End of substitution
-
+	mkdir -p _tmp/src/$(TARGET)
+	cp -R src/$(TARGET) _tmp/src
+	cp src/utils/utils.py _tmp/src/$(TARGET)/pipeline/
+	cat resources/image_spec.json | TEMPLATE_IMAGE=$(TEMPLATE_IMAGE) envsubst > _tmp/src/$(TARGET)/spec/image_spec.json
+	cat resources/python_command_spec.json | WORKDIR=$(DOCKER_WORKDIR) envsubst > _tmp/src/$(TARGET)/spec/python_command_spec.json
+	cat Dockerfile | COMPONENT=$(TARGET) WORKDIR=$(DOCKER_WORKDIR) envsubst > _tmp/Dockerfile
 	gcloud builds submit --project=${PROJECT} --tag ${TEMPLATE_IMAGE} _tmp/
-	#rm -r _tmp
+	rm -r _tmp
 
 template: template-spec build-template
 

@@ -52,7 +52,7 @@ def run(known_args, pipeline_args, save_main_session=True):
     # workflow rely on global context (e.g., a module imported at module level).
     pipeline_options = PipelineOptions(pipeline_args)
     pipeline_options.view_as(SetupOptions).save_main_session = save_main_session
-
+    print(known_args)
     # The pipeline will be run on exiting the with block.
     with beam.Pipeline(options=pipeline_options) as p:
         # Read the text file[pattern] into a PCollection.

@@ -19,14 +19,16 @@ FROM gcr.io/dataflow-templates-base/python3-template-launcher-base
 RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 
-COPY src/pipeline ${WORKDIR}/pipeline
-COPY src/setup.py ${WORKDIR}/setup.py
-COPY src/main.py ${WORKDIR}/main.py
+COPY src/$COMPONENT/pipeline ${WORKDIR}/pipeline
 
-COPY src/requirements.txt ${WORKDIR}/requirements.txt
-COPY src/spec/python_command_spec.json ${WORKDIR}/python_command_spec.json
+COPY src/$COMPONENT/spec/python_command_spec.json ${WORKDIR}/python_command_spec.json
 
 ENV DATAFLOW_PYTHON_COMMAND_SPEC ${WORKDIR}/python_command_spec.json
+
+
+COPY src/$COMPONENT/setup.py ${WORKDIR}/setup.py
+COPY src/$COMPONENT/main.py ${WORKDIR}/main.py
+COPY src/$COMPONENT/requirements.txt ${WORKDIR}/requirements.txt
 
 RUN pip install -r ${WORKDIR}/requirements.txt
 
