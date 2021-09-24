@@ -28,18 +28,13 @@ template-spec:
 	gcloud dataflow flex-template build $(TEMPLATE_PATH) --image "$(TEMPLATE_IMAGE)" --sdk-language "PYTHON" --metadata-file src/$(TARGET)/spec/template_metadata
 
 build-template:
-	-rm -r _tmp
 	mkdir -p _tmp/src/$(TARGET)
 	cp -R src/$(TARGET) _tmp/src
-
-	# Starting environment variable substitution
 	cat resources/image_spec.json | TEMPLATE_IMAGE=$(TEMPLATE_IMAGE) envsubst > _tmp/src/$(TARGET)/spec/image_spec.json
 	cat resources/python_command_spec.json | WORKDIR=$(DOCKER_WORKDIR) envsubst > _tmp/src/$(TARGET)/spec/python_command_spec.json
 	cat Dockerfile | COMPONENT=$(TARGET) WORKDIR=$(DOCKER_WORKDIR) envsubst > _tmp/Dockerfile
 	gcloud builds submit --project=${PROJECT} --tag ${TEMPLATE_IMAGE} _tmp/
-	# End of substitution
-
-	gcloud builds submit --project=${PROJECT} --tag ${TEMPLATE_IMAGE} _tmp/
+	rm -r _tmp
 
 template: template-spec build-template
 

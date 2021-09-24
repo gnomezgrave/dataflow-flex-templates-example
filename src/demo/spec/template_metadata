@@ -1,6 +1,6 @@
 {
-  "description": "Validates image gallery created by gallery logic",
-  "name": "Image Gallery pipeline",
+  "description": "Demo project for Dataflow Flex templates",
+  "name": "Flex Demo",
   "parameters": [
     {
       "name": "input",
