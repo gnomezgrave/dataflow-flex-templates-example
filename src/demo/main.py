@@ -1,5 +1,8 @@
+from __future__ import absolute_import
+
 import logging
 import argparse
+
 
 from pipeline import word_count
 
