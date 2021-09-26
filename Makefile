@@ -1,12 +1,12 @@
 # Your GCP Project Name
-PROJECT=github-stats-dashboard
+PROJECT=my-sample-gcp-project
 
 # Region you want to run your Dataflow jobs
 REGION=europe-west4
 USER=ppeiris
 
 # GCP Bucket where the flex templates are uploaded
-TEMPLATE_BUCKET=dataflow-flex-templates-$(USER)
+TEMPLATE_BUCKET=flex-templates-$(USER)
 TEMPLATE_PATH=gs://$(TEMPLATE_BUCKET)/$(USER)/python_command_spec.json
 
 # Name for your GCR repo
@@ -30,11 +30,14 @@ template-spec:
 build-template:
 	mkdir -p _tmp/src/$(TARGET)
 	cp -R src/$(TARGET) _tmp/src
+	
+	# Starting string substitution
 	cat resources/image_spec.json | TEMPLATE_IMAGE=$(TEMPLATE_IMAGE) envsubst > _tmp/src/$(TARGET)/spec/image_spec.json
 	cat resources/python_command_spec.json | WORKDIR=$(DOCKER_WORKDIR) envsubst > _tmp/src/$(TARGET)/spec/python_command_spec.json
 	cat Dockerfile | COMPONENT=$(TARGET) WORKDIR=$(DOCKER_WORKDIR) envsubst > _tmp/Dockerfile
+	# Ending string substitution
+	
 	gcloud builds submit --project=${PROJECT} --tag ${TEMPLATE_IMAGE} _tmp/
-	rm -r _tmp
 
 template: template-spec build-template
 
