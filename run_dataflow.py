@@ -16,18 +16,20 @@ request = dataflow.projects().locations().flexTemplates().launch(
         location=dataflow_region,
         body={
             'launch_parameter': {
-                'jobName': 'my-job-name-1',
+                'jobName': 'my-job-name-12',
                 'parameters': {
                     'input': 'gs://dataflow-samples/shakespeare/kinglear.txt',
-                    'output': 'gs://word-count-output-ppeiris/output/out',
-                    'temp_location': 'gs://word-count-output-ppeiris/temp/output',
+                    'output': 'gs://wordcount_output_ppeiris/output/out',
+                    'temp_location': 'gs://wordcount_output_ppeiris/temp/output',
+                    'subnetwork': 'subnet_uri_to_run_dataflow',
+                    'setup_file': '/dataflow/template/setup.py'
                 },
                 'environment': {
                     'additionalUserLabels': {
                         'name': 'flex_templates_example'
                     }
                 },
-                'containerSpecGcsPath': 'gs://dataflow-flex-templates-ppeiris/ppeiris/python_command_spec.json',
+                'containerSpecGcsPath': 'gs://flex-templates-ppeiris/ppeiris/python_command_spec.json',
             }
         }
     )

@@ -11,6 +11,11 @@
       "name": "output",
       "helpText": "Output Location",
       "label": "Output Location"
+    },
+    {
+      "name": "setup_file",
+      "helpText": "path of the python setup file",
+      "label": "path for the python setup file"
     }
   ]
 }

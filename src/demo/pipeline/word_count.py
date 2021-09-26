@@ -47,14 +47,9 @@ class WordExtractingDoFn(beam.DoFn):
         return re.findall(r'[\w\']+', element, re.UNICODE)
 
 
-def run(known_args, pipeline_args, save_main_session=True):
-    # We use the save_main_session option because one or more DoFn's in this
-    # workflow rely on global context (e.g., a module imported at module level).
-    pipeline_options = PipelineOptions(pipeline_args)
-    pipeline_options.view_as(SetupOptions).save_main_session = save_main_session
-    print(known_args)
-    # The pipeline will be run on exiting the with block.
-    with beam.Pipeline(options=pipeline_options) as p:
+def run(known_args, pipeline_args):
+
+    with beam.Pipeline(options=PipelineOptions(pipeline_args)) as p:
         # Read the text file[pattern] into a PCollection.
         lines = p | 'Read' >> ReadFromText(known_args.input)
 
@@ -74,3 +69,5 @@ def run(known_args, pipeline_args, save_main_session=True):
         # Write the output using a "Write" transform that has side effects.
         # pylint: disable=expression-not-assigned
         output | 'Write' >> WriteToText(known_args.output)
+
+        p.run()

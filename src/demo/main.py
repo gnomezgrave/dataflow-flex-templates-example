@@ -6,6 +6,7 @@ import argparse
 
 from pipeline import word_count
 
+
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
 

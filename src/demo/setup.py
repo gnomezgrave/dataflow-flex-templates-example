@@ -14,7 +14,7 @@ import setuptools
 setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
-        'apache-beam[gcp]==2.24.0',
+        'apache-beam[gcp]==2.31.0',
         'google-cloud-storage'
     ]
 )
